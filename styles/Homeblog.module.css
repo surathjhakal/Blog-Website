@@ -15,7 +15,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 0 1rem;
+  padding: 1rem 1rem;
   background-color: rgb(241, 241, 241);
 }
 
@@ -46,6 +46,10 @@
 .active {
   border-bottom: 5px solid rgb(65 162 173);
   color: rgb(65, 150, 150);
+  cursor: pointer;
+}
+.homeBlog_buttons {
+  cursor: pointer;
 }
 
 .user_info {

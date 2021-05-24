@@ -5,7 +5,7 @@ import HomeBlog from "../../components/HomeBlog";
 import db from "../../firebase";
 
 function PostData({ posts }) {
-  // console.log(posts);
+  console.log(posts);
   return (
     <div className={styles.home}>
       <Head>
