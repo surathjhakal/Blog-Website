@@ -41,3 +41,8 @@
   text-align: center;
   color: rgb(70, 70, 70);
 }
+
+.active {
+  border-bottom: 5px solid rgb(65 162 173);
+  color: rgb(65, 150, 150) !important;
+}

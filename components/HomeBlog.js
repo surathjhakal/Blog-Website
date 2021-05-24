@@ -15,7 +15,7 @@ export default function HomeBlog({ posts }) {
 
   const addBlog = () => {
     if (user) {
-      router.push("../blog/add");
+      router.push("../blogAdd/add");
     } else {
       auth.signInWithPopup(provider).catch(alert);
     }
@@ -52,7 +52,13 @@ export default function HomeBlog({ posts }) {
         <Nav className={styles.homeBlog_category}>
           {categories?.docs.map((category) => (
             <Link href={`/category/${category.id}`} passHref>
-              <Nav.Link>{category.data().name}</Nav.Link>
+              <Nav.Link
+                className={
+                  router.query.id == category.id ? styles.active : "none"
+                }
+              >
+                {category.data().name}
+              </Nav.Link>
             </Link>
           ))}
         </Nav>

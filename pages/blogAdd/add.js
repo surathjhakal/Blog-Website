@@ -2,7 +2,7 @@ import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import Header from "../../components/Header";
 import { useAuthState } from "react-firebase-hooks/auth";
-import db, { auth, provider } from "../../firebase";
+import db, { auth, storage } from "../../firebase";
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { useRouter } from "next/router";
@@ -13,6 +13,7 @@ export default function add() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [blogDetails, setBlogDetails] = useState("");
+  const [image, setImage] = useState(null);
   const [user] = useAuthState(auth);
   const router = useRouter();
 
@@ -43,6 +44,33 @@ export default function add() {
         likes: 0,
         dislikes: 0,
         photoURL: user.photoURL,
+        email: user.email,
+      })
+      .then((doc) => {
+        if (image) {
+          const uploadTask = storage
+            .ref(`posts/${doc.id}`)
+            .putString(image, "data_url");
+          removeImage();
+          uploadTask.on(
+            "state_change",
+            null,
+            (err) => console.log(err),
+            () => {
+              storage
+                .ref(`posts/${doc.id}`)
+                .getDownloadURL()
+                .then((url) => {
+                  db.collection("posts").doc(doc.id).set(
+                    {
+                      postImage: url,
+                    },
+                    { merge: true }
+                  );
+                });
+            }
+          );
+        }
       })
       .then(() => {
         alert("You have successfully posted your blog");
@@ -52,6 +80,18 @@ export default function add() {
     setCategory("");
   };
 
+  const addImage = (e) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    reader.onload = (readerEvent) => {
+      setImage(readerEvent.target.result);
+    };
+  };
+  const removeImage = () => {
+    setImage(null);
+  };
   return (
     <>
       {user && (
@@ -59,19 +99,7 @@ export default function add() {
           <Head>
             <title>My Blog</title>
             <meta name="description" content="My Blog Site!!!" />
-            <link
-              rel="icon"
-              href="/favicon.icTopic Name: How to make a chocolate cake
-   Here I'll tell you how to make a chocolate cake..
-
-  1) first try to do this and that
-  1) first try to do this and that
-  1) first try to do this and that
-  1) first try to do this and that
-  1) first try to do this and that
-
-  Now your cake is ready , enjoy!!o"
-            />
+            <link rel="icon" href="/favicon.icTopic" />
           </Head>
 
           <div className={styles.home_content}>
@@ -92,6 +120,7 @@ export default function add() {
                   paddingBottom: "1rem",
                   borderBottom: "1px solid grey",
                   width: "280px",
+                  margin: "0 auto",
                 }}
               >
                 Create a Blog Post
@@ -131,6 +160,29 @@ export default function add() {
                     value={blogDetails}
                     onChange={(e) => setBlogDetails(e.target.value)}
                   />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Upload blog image :</Form.Label>
+                  <Form.File
+                    className="position-relative"
+                    required
+                    name="file"
+                    onChange={addImage}
+                    id="validationFormik107"
+                    feedbackTooltip
+                  />
+                  {image && (
+                    <div>
+                      <img
+                        style={{ height: "50px", margin: "10px 10px 0 0" }}
+                        src={image}
+                        alt="image selected"
+                      />
+                      <Button variant="info" onClick={removeImage}>
+                        Remove
+                      </Button>
+                    </div>
+                  )}
                 </Form.Group>
                 <Button
                   onClick={addBlog}

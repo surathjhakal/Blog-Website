@@ -3,9 +3,11 @@ import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, provider } from "../firebase";
 import { Avatar } from "@material-ui/core";
+import { useRouter } from "next/router";
 
 export default function Header() {
   const [user] = useAuthState(auth);
+  const router = useRouter();
 
   const signIn = () => {
     auth.signInWithPopup(provider).catch(alert);
@@ -23,22 +25,18 @@ export default function Header() {
         fontSize: "20px",
       }}
     >
-      <Navbar.Brand href="#home">MyBlog</Navbar.Brand>
+      <Navbar.Brand href="#">MY BLOG</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="m-auto">
+        <Nav className="mr-auto">
           <Link href="/" passHref>
             <Nav.Link>Home</Nav.Link>
           </Link>
-          <Link href="/news" passHref>
-            <Nav.Link style={{ marginLeft: "20px" }}>News</Nav.Link>
-          </Link>
-          <Link href="/weather" passHref>
-            <Nav.Link style={{ marginLeft: "20px" }}>Weather</Nav.Link>
-          </Link>
-          <Link href="/contactus" passHref>
-            <Nav.Link style={{ marginLeft: "20px" }}>Contact Us</Nav.Link>
-          </Link>
+          {user && (
+            <Link href={`/YourBlog`} passHref>
+              <Nav.Link style={{ marginLeft: "20px" }}>My Blogs</Nav.Link>
+            </Link>
+          )}
         </Nav>
         <Nav>
           <Link href="" passHref style={{ marginLeft: "auto" }}>
