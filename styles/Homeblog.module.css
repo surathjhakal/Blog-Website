@@ -48,6 +48,10 @@
   color: rgb(65, 150, 150);
 }
 
+.user_info {
+  display: flex;
+}
+
 @media screen and (max-width: 1000px) {
   .homeBlog {
     width: 100vw;
@@ -70,6 +74,7 @@
   }
   .homeBlog_category {
     flex-direction: column;
+    padding: 1rem 0;
   }
 }
 
@@ -85,8 +90,5 @@
   }
   .header_links {
     margin: 0;
-  }
-  .user_info {
-    display: flex;
   }
 }
