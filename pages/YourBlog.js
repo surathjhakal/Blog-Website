@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styles from "../styles/Posts.module.css";
+import styles from "../styles/addBlog.module.css";
 import Header from "../components/Header";
 import db, { auth } from "../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -21,19 +21,16 @@ function YourBlog() {
   console.log(blogs);
 
   return (
-    <div className={styles.home}>
+    <div>
       <Head>
         <title>My Blog</title>
         <meta name="description" content="My Blog Site!!!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.home_content}>
+      <div className={styles.myBlog_header}>
         <Header />
-        <div
-          className={styles.posts}
-          style={{ width: "50vw", marginTop: "1rem" }}
-        >
+        <div className={styles.myBlog}>
           <h1 className={styles.blogTitle}>My Blogs</h1>
           {blogs?.map((blog) => (
             <Post post={blog[1]} key={blog[0]} id={blog[0]} blog />

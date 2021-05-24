@@ -30,7 +30,9 @@ export default function HomeBlog({ posts }) {
             alt="First slide"
           />
           <Carousel.Caption>
-            <h3>Aren't you excited to write your first blog</h3>
+            <h3 className={styles.caption}>
+              Aren't you excited to write your first blog
+            </h3>
           </Carousel.Caption>
           <Button
             variant="light"
@@ -48,20 +50,25 @@ export default function HomeBlog({ posts }) {
           />
         </Carousel.Item>
       </Carousel>
-      <Navbar bg="light">
-        <Nav className={styles.homeBlog_category}>
+      <Navbar
+        bg="rgb(241, 241, 241)"
+        style={{ borderBottom: "1px solid rgb(197 197 197)" }}
+      >
+        <div className={styles.homeBlog_category}>
           {categories?.docs.map((category) => (
             <Link href={`/category/${category.id}`} passHref>
-              <Nav.Link
+              <div
                 className={
-                  router.query.id == category.id ? styles.active : "none"
+                  router.query.id == category.id
+                    ? styles.active
+                    : styles.homeBlog_buttons
                 }
               >
                 {category.data().name}
-              </Nav.Link>
+              </div>
             </Link>
           ))}
-        </Nav>
+        </div>
       </Navbar>
       {posts ? (
         <>

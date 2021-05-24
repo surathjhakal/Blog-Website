@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, provider } from "../firebase";
 import { Avatar } from "@material-ui/core";
 import { useRouter } from "next/router";
+import styles from "../styles/Homeblog.module.css";
 
 export default function Header() {
   const [user] = useAuthState(auth);
@@ -34,19 +35,19 @@ export default function Header() {
           </Link>
           {user && (
             <Link href={`/YourBlog`} passHref>
-              <Nav.Link style={{ marginLeft: "20px" }}>My Blogs</Nav.Link>
+              <Nav.Link className={styles.header_links}>My Blogs</Nav.Link>
             </Link>
           )}
         </Nav>
         <Nav>
           <Link href="" passHref style={{ marginLeft: "auto" }}>
             {user ? (
-              <>
+              <div className={styles.user_info}>
                 <Avatar src={user.photoURL} />
                 <Nav.Link>
                   {user.displayName},<span onClick={signOut}> Sign Out</span>
                 </Nav.Link>
-              </>
+              </div>
             ) : (
               <Nav.Link onClick={signIn}>Sign In</Nav.Link>
             )}

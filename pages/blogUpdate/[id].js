@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styles from "../../styles/Home.module.css";
+import styles from "../../styles/addBlog.module.css";
 import Header from "../../components/Header";
 import { useAuthState } from "react-firebase-hooks/auth";
 import db, { auth, storage } from "../../firebase";
@@ -82,30 +82,10 @@ export default function update({ postDetails }) {
             <link rel="icon" href="/favicon.ic" />
           </Head>
 
-          <div className={styles.home_content}>
+          <div className={styles.blogUpdate}>
             <Header />
-            <div
-              className={styles.addBlog}
-              style={{
-                width: "70vw",
-                border: "1px solid lightgrey",
-                margin: "auto",
-                marginTop: "2rem",
-                padding: "3rem",
-              }}
-            >
-              <h2
-                style={{
-                  marginBottom: "1rem",
-                  paddingBottom: "1rem",
-                  borderBottom: "1px solid grey",
-                  width: "350px",
-                  textAlign: "center",
-                  margin: "0 auto",
-                }}
-              >
-                Update your Blog Post
-              </h2>
+            <div className={styles.addBlog}>
+              <h2 className={styles.updateBlog_title}>Update your Blog Post</h2>
               <Form>
                 <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label>Title</Form.Label>

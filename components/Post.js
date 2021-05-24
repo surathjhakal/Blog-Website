@@ -77,7 +77,7 @@ export default function Post({ post, id, blog }) {
 
           <Card.Text>
             {post.postImage && (
-              <Image src={post?.postImage} height="250px" width="1100px" />
+              <Image src={post?.postImage} height="300px" width="1100px" />
             )}
           </Card.Text>
           <Card.Text>

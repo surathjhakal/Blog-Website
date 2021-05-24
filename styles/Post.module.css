@@ -48,3 +48,15 @@
   margin-right: 1rem;
   border: 1px solid grey;
 }
+
+@media screen and (max-width: 1000px) {
+  .post_header {
+    border-bottom: 1px solid grey;
+    padding-bottom: 2rem;
+  }
+  .post_header > p {
+    bottom: -10px;
+    left: 8vw;
+    width: 100%;
+  }
+}

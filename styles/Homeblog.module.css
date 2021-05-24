@@ -16,6 +16,7 @@
   justify-content: space-between;
   width: 100%;
   padding: 0 1rem;
+  background-color: rgb(241, 241, 241);
 }
 
 .homeBlog_createBlog {
@@ -44,5 +45,48 @@
 
 .active {
   border-bottom: 5px solid rgb(65 162 173);
-  color: rgb(65, 150, 150) !important;
+  color: rgb(65, 150, 150);
+}
+
+@media screen and (max-width: 1000px) {
+  .homeBlog {
+    width: 100vw;
+  }
+  .active {
+    background: #e4e2e2;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+    background-color: rgb(65, 150, 150);
+    color: white;
+  }
+  .homeBlog_buttons {
+    background: #e4e2e2;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+  }
+  .homeBlog_category {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .homeBlog_createBlog {
+    top: 3vh;
+    font-size: 13px;
+    padding: 8px;
+    left: 30vw;
+  }
+  .caption {
+    font-size: 24px;
+  }
+  .header_links {
+    margin: 0;
+  }
+  .user_info {
+    display: flex;
+  }
 }
