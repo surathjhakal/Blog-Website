@@ -47,6 +47,8 @@
 .post_buttons > button {
   margin-right: 1rem;
   border: 1px solid grey;
+  outline: none;
+  box-shadow: none;
 }
 
 @media screen and (max-width: 1000px) {

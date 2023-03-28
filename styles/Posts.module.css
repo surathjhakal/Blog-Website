@@ -16,3 +16,9 @@
   margin: 0 auto;
   color: rgb(80, 80, 80);
 }
+
+@media (max-width: 600px) {
+  .posts {
+    width: 100%;
+  }
+}

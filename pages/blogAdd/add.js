@@ -24,15 +24,6 @@ export default function add() {
     }
   }, [user]);
 
-  //   Here I'll tell you how to make a chocolate cake..
-
-  // 1) first try to do this and that
-  // 1) first try to do this and that
-  // 1) first try to do this and that
-  // 1) first try to do this and that
-  // 1) first try to do this and that
-
-  // Now your cake is ready , enjoy!!
   const addBlog = () => {
     db.collection("posts")
       .add({
@@ -74,6 +65,7 @@ export default function add() {
       })
       .then(() => {
         alert("You have successfully posted your blog");
+        router.push("../YourBlog");
       });
     setTitle("");
     setBlogDetails("");
@@ -97,9 +89,12 @@ export default function add() {
       {user && (
         <div className={styles.home}>
           <Head>
-            <title>My Blog</title>
+            <title>Blogue</title>
             <meta name="description" content="My Blog Site!!!" />
-            <link rel="icon" href="/favicon.icTopic" />
+            <link
+              rel="icon"
+              href="https://e7.pngegg.com/pngimages/76/607/png-clipart-blog-logo-others-text-service.png"
+            />
           </Head>
 
           <div className={styles.home_content}>

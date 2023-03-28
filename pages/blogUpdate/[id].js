@@ -10,9 +10,10 @@ import { useEffect, useState } from "react";
 import firebase from "firebase";
 
 export default function update({ postDetails }) {
+  console.log(postDetails);
   postDetails = JSON.parse(postDetails);
   const [image, setImage] = useState(postDetails.postImage);
-  const [blogDetails, setBlogDetails] = useState(postDetails.blogDetails);
+  const [postData, setPostData] = useState(postDetails);
   const [user] = useAuthState(auth);
   const router = useRouter();
   console.log(postDetails);
@@ -22,19 +23,20 @@ export default function update({ postDetails }) {
       .doc(router.query.id)
       .set(
         {
-          blogDetails: blogDetails,
+          ...postData,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         },
         { merge: true }
       )
       .then((doc) => {
-        if (image) {
+        if (image != postDetails.postImage) {
+          console.log(image);
           const uploadTask = storage
             .ref(`posts/${router.query.id}`)
-            .putString(image, "data_url");
+            .putString(image);
           removeImage();
           uploadTask.on(
-            "state_change",
+            "state_changed",
             null,
             (err) => console.log(err),
             () => {
@@ -72,14 +74,23 @@ export default function update({ postDetails }) {
     setImage(null);
   };
 
+  console.log(image);
+
+  const handleOnChangePostData = (value, attribute) => {
+    setPostData({ ...postData, [attribute]: value });
+  };
+
   return (
     <>
       {user && (
         <div className={styles.home}>
           <Head>
-            <title>My Blog</title>
+            <title>Blogue</title>
             <meta name="description" content="My Blog Site!!!" />
-            <link rel="icon" href="/favicon.ic" />
+            <link
+              rel="icon"
+              href="https://e7.pngegg.com/pngimages/76/607/png-clipart-blog-logo-others-text-service.png"
+            />
           </Head>
 
           <div className={styles.blogUpdate}>
@@ -90,21 +101,22 @@ export default function update({ postDetails }) {
                 <Form.Group controlId="exampleForm.ControlInput1">
                   <Form.Label>Title</Form.Label>
                   <Form.Control
-                    value={postDetails.title}
-                    // value={title}
+                    value={postData.title}
                     type="text"
                     placeholder="Enter the title of the blog"
-                    // onChange={(e) => setTitle(e.target.value)}
-                    disabled
+                    onChange={(e) =>
+                      handleOnChangePostData(e.target.value, "title")
+                    }
                   />
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlSelect1">
                   <Form.Label>Select Category</Form.Label>
                   <Form.Control
-                    disabled
                     as="select"
-                    value={postDetails.category}
-                    // onChange={(e) => setCategory(e.target.value)}
+                    value={postData.category}
+                    onChange={(e) =>
+                      handleOnChangePostData(e.target.value, "category")
+                    }
                     style={{ cursor: "pointer" }}
                   >
                     <option value="Health">Health</option>
@@ -122,8 +134,10 @@ export default function update({ postDetails }) {
                     style={{ whiteSpace: "pre-wrap" }}
                     as="textarea"
                     rows={15}
-                    value={blogDetails}
-                    onChange={(e) => setBlogDetails(e.target.value)}
+                    value={postData.blogDetails}
+                    onChange={(e) =>
+                      handleOnChangePostData(e.target.value, "blogDetails")
+                    }
                   />
                 </Form.Group>
                 <Form.Group>
@@ -137,9 +151,19 @@ export default function update({ postDetails }) {
                     feedbackTooltip
                   />
                   {image && (
-                    <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
                       <img
-                        style={{ height: "50px", margin: "10px 10px 0 0" }}
+                        style={{
+                          height: "100px",
+                          width: "120px",
+                          margin: "10px 10px 0 0",
+                        }}
                         src={image}
                         alt="image selected"
                       />

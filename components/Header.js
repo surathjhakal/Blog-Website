@@ -26,7 +26,7 @@ export default function Header() {
         fontSize: "20px",
       }}
     >
-      <Navbar.Brand href="#">MY BLOG</Navbar.Brand>
+      <Navbar.Brand href="#">Blogue</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
@@ -56,13 +56,4 @@ export default function Header() {
       </Navbar.Collapse>
     </Navbar>
   );
-}
-
-{
-  /* <Link href="/" passHref>
-    <Nav.Link>Home</Nav.Link>
-</Link>
-<Link href="/contact" passHref>
-    <Nav.Link>Contact</Nav.Link>
-</Link> */
 }

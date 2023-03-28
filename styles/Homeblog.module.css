@@ -4,6 +4,7 @@
   border: 1px solid lightgrey;
   border-top: none;
   margin-bottom: 2rem;
+  background-color: #fff;
 }
 
 .homeBlog_carousel_image {
@@ -54,6 +55,7 @@
 
 .user_info {
   display: flex;
+  gap: 1rem;
 }
 
 @media screen and (max-width: 1000px) {

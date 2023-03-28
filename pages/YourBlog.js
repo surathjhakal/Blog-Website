@@ -12,24 +12,32 @@ function YourBlog() {
   const [blogs, setBlogs] = useState([]);
   const [user] = useAuthState(auth);
   const router = useRouter();
-  if (user) {
-    db.collection("posts")
-      .orderBy("likes", "desc")
-      .where("email", "==", user.email)
-      .onSnapshot((snapshot) => {
-        setBlogs(snapshot.docs.map((doc) => [doc.id, doc.data()]));
-      });
-    console.log(blogs);
-  }
+
+  useEffect(() => {
+    if (user) {
+      db.collection("posts")
+        .orderBy("likes", "desc")
+        .where("email", "==", user.email)
+        .onSnapshot((snapshot) => {
+          setBlogs(snapshot.docs.map((doc) => [doc.id, doc.data()]));
+        });
+      console.log(blogs);
+    } else {
+      router.push("../");
+    }
+  }, [user]);
 
   return (
     <>
       {user ? (
         <div>
           <Head>
-            <title>My Blog</title>
+            <title>Blogue</title>
             <meta name="description" content="My Blog Site!!!" />
-            <link rel="icon" href="/favicon.ico" />
+            <link
+              rel="icon"
+              href="https://e7.pngegg.com/pngimages/76/607/png-clipart-blog-logo-others-text-service.png"
+            />
           </Head>
 
           <div className={styles.myBlog_header}>

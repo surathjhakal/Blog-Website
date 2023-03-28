@@ -8,6 +8,7 @@ import db, { auth, provider } from "../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 
 export default function HomeBlog({ posts }) {
+  console.log(posts);
   const getCategory = db.collection("category");
   const [categories] = useCollection(getCategory);
   const [user] = useAuthState(auth);

@@ -1,31 +1,26 @@
 import styles from "../styles/Post.module.css";
 import { Button, Card } from "react-bootstrap";
 import { Avatar } from "@material-ui/core";
-import db, { auth, provider } from "../firebase";
+import db, { auth, provider, storage } from "../firebase";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Post({ post, id, blog }) {
-  const [posts, setPosts] = useState();
   const [user] = useAuthState(auth);
   const router = useRouter();
-  db.collection("posts")
-    .doc(post.id)
-    .onSnapshot((snapshot) => {
-      setPosts(snapshot.data());
-    });
-  // console.log(posts?.docs?.map((post) => console.log(post.data())));
-  if (posts) {
-    // posts?.docs?.forEach((post) => console.log(post.data()));
-    // console.log(posts);
-    post.likes = posts.likes;
-    post.dislikes = posts.dislikes;
-  }
 
   const updateBlog = () => {
     router.push(`/blogUpdate/${id}`);
+  };
+
+  const deleteBlog = () => {
+    if (post.postImage) {
+      storage.ref(`posts/${id}`).delete();
+    }
+    db.collection("posts").doc(id).delete();
+    alert("You have successfully deleted your blog");
   };
 
   const like = () => {
@@ -77,7 +72,10 @@ export default function Post({ post, id, blog }) {
 
           <Card.Text>
             {post.postImage && (
-              <Image src={post?.postImage} height="300px" width="1100px" />
+              <img
+                src={post?.postImage}
+                style={{ height: "300px", width: "100%" }}
+              />
             )}
           </Card.Text>
           <Card.Text>
@@ -96,9 +94,23 @@ export default function Post({ post, id, blog }) {
           </Button>
         </div>
         {blog && (
-          <Button variant="success" onClick={updateBlog}>
-            Update
-          </Button>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+              backgroundColor: "rgb(241, 241, 241)",
+              paddingBottom: "1rem",
+            }}
+          >
+            <Button variant="success" onClick={updateBlog}>
+              Update
+            </Button>
+
+            <Button variant="danger" onClick={deleteBlog}>
+              Delete
+            </Button>
+          </div>
         )}
       </Card>
     </div>

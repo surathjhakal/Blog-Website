@@ -2,6 +2,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Add this in scripts dev,build
+
+```bash
+set NODE_OPTIONS=--openssl-legacy-provider
+```
+
 First, run the development server:
 
 ```bash
