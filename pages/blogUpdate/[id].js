@@ -10,13 +10,11 @@ import { useEffect, useState } from "react";
 import firebase from "firebase";
 
 export default function update({ postDetails }) {
-  console.log(postDetails);
   postDetails = JSON.parse(postDetails);
   const [image, setImage] = useState(postDetails.postImage);
   const [postData, setPostData] = useState(postDetails);
   const [user] = useAuthState(auth);
   const router = useRouter();
-  console.log(postDetails);
 
   const setBlog = () => {
     db.collection("posts")
