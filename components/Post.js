@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Post({ post, id, blog }) {
+  const [postData, setPostData] = useState(post);
   const [user] = useAuthState(auth);
   const router = useRouter();
 
@@ -16,7 +17,7 @@ export default function Post({ post, id, blog }) {
   };
 
   const deleteBlog = () => {
-    if (post.postImage) {
+    if (postData.postImage) {
       storage.ref(`posts/${id}`).delete();
     }
     db.collection("posts").doc(id).delete();
@@ -28,13 +29,16 @@ export default function Post({ post, id, blog }) {
       auth.signInWithPopup(provider).catch(alert);
     } else {
       db.collection("posts")
-        .doc(post.id)
+        .doc(postData.id)
         .set(
           {
-            likes: post.likes + 1,
+            likes: postData.likes + 1,
           },
           { merge: true }
-        );
+        )
+        .then(() => {
+          setPostData({ ...postData, likes: postData.likes + 1 });
+        });
     }
   };
 
@@ -43,13 +47,16 @@ export default function Post({ post, id, blog }) {
       auth.signInWithPopup(provider).catch(alert);
     } else {
       db.collection("posts")
-        .doc(post.id)
+        .doc(postData.id)
         .set(
           {
-            dislikes: post.dislikes - 1,
+            dislikes: postData.dislikes - 1,
           },
           { merge: true }
-        );
+        )
+        .then(() => {
+          setPostData({ ...postData, likes: postData.likes - 1 });
+        });
     }
   };
   return (
@@ -59,40 +66,43 @@ export default function Post({ post, id, blog }) {
           style={{ backgroundColor: "rgb(241, 241, 241)", width: "100%" }}
         >
           <Card.Text className={styles.post_header}>
-            <Avatar src={post.photoURL} />
-            <h3>{post.name}</h3>
+            <Avatar src={postData.photoURL} />
+            <h3>{postData.name}</h3>
             {!blog ? (
-              <p>Posted on: {new Date(post?.timestamp).toDateString()}</p>
+              <p>Posted on: {new Date(postData?.timestamp).toDateString()}</p>
             ) : (
               <p>
-                Posted on: {post?.timestamp.toDate().toString().slice(0, 25)}
+                Posted on:{" "}
+                {postData?.timestamp.toDate().toString().slice(0, 25)}
               </p>
             )}
           </Card.Text>
 
           <Card.Text>
-            {post.postImage && (
+            {postData.postImage && (
               <img
-                src={post?.postImage}
+                src={postData?.postImage}
                 style={{ height: "300px", width: "100%" }}
               />
             )}
           </Card.Text>
           <Card.Text>
-            <h4 className={styles.post_title}>Topic Name: {post.title}</h4>
+            <h4 className={styles.post_title}>Topic Name: {postData.title}</h4>
             <p style={{ whiteSpace: "pre-wrap" }} className={styles.post_info}>
-              {post.blogDetails}
+              {postData.blogDetails}
             </p>
           </Card.Text>
         </Card.Body>
-        <div className={styles.post_buttons}>
-          <Button variant="light" onClick={like}>
-            👍 {post.likes}
-          </Button>
-          <Button variant="light" onClick={dislike}>
-            👎 {post.dislikes}
-          </Button>
-        </div>
+        {!blog && (
+          <div className={styles.post_buttons}>
+            <Button variant="light" onClick={like}>
+              👍 {postData.likes}
+            </Button>
+            <Button variant="light" onClick={dislike}>
+              👎 {postData.dislikes}
+            </Button>
+          </div>
+        )}
         {blog && (
           <div
             style={{

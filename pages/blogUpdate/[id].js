@@ -117,6 +117,7 @@ export default function update({ postDetails }) {
                     }
                     style={{ cursor: "pointer" }}
                   >
+                    <option value="Adventure">Adventure</option>
                     <option value="Health">Health</option>
                     <option value="Cooking">Cooking</option>
                     <option value="Finance">Finance</option>

@@ -11,7 +11,7 @@ import firebase from "firebase";
 
 export default function add() {
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Health");
   const [blogDetails, setBlogDetails] = useState("");
   const [image, setImage] = useState(null);
   const [user] = useAuthState(auth);
@@ -118,6 +118,7 @@ export default function add() {
                     onChange={(e) => setCategory(e.target.value)}
                     style={{ cursor: "pointer" }}
                   >
+                    <option value="Adventure">Adventure</option>
                     <option value="Health">Health</option>
                     <option value="Cooking">Cooking</option>
                     <option value="Finance">Finance</option>

@@ -25,43 +25,30 @@ function PostData({ posts }) {
   );
 }
 
-export async function getStaticPaths() {
-  const categories = await db.collection("category").get();
-  // Retrieve all categories data from database
-  const paths = categories.docs.map((category) => ({
-    params: { id: category.id },
-  }));
-
-  return {
-    paths,
-    fallback: false,
-  };
-}
-
-export async function getStaticProps({ params }) {
-  const { id } = params;
-  const categoryName = await db.collection("category").doc(id).get();
-  const postCollection = await db
+export async function getServerSideProps(context) {
+  const categorydata = await db
+    .collection("category")
+    .doc(context.query.id)
+    .get();
+  console.log("hello", categorydata.data());
+  const postsCollection = await db
     .collection("posts")
-    .where("category", "==", categoryName.data().name)
+    .where("category", "==", categorydata.data().name)
     .orderBy("likes", "desc")
     .get();
 
-  const posts = postCollection.docs
-    .map((post) => ({
+  const posts = postsCollection.docs.map((post) => {
+    // console.log(post);
+    return {
       id: post.id,
       ...post.data(),
-    }))
-    .map((post) => ({
-      ...post,
-      timestamp: post.timestamp.toDate().getTime(),
-    }));
-
+      timestamp: post.data().timestamp.toDate().getTime(),
+    };
+  });
   return {
     props: {
       posts: JSON.stringify(posts),
     },
-    revalidate: 1,
   };
 }
 
